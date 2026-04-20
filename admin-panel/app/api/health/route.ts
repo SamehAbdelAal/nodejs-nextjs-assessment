@@ -14,14 +14,16 @@ export async function GET(req: Request) {
     orderBy: { createdAt: "desc" },
   });
 
-  // BUG: destructures `latest` without a null check. `prisma.findFirst` is
-  // typed as `T | null`, but the `!` below silences the compiler instead of
-  // handling the empty case. When the Announcement table is empty — or every
-  // row is soft-deleted — `latest` is null and this line throws:
-  //   TypeError: Cannot destructure property 'id' of 'null' as it is null.
-  // The endpoint then returns HTTP 500. Looks intermittent because content
-  // is usually present in a live environment.
-  const { id, titleEn, titleAr, createdAt } = latest!;
+  // FIX: guard before destructuring. `prisma.findFirst` returns `T | null`;
+  // the empty-table / all-soft-deleted case is a normal response, not an
+  // error. Returning `latest: null` keeps the endpoint healthy instead of
+  // crashing on a null dereference. The `!` non-null assertion was removed
+  // so strict TypeScript narrows the type on the line below.
+  if (!latest) {
+    return NextResponse.json({ status: "ok", latest: null });
+  }
+
+  const { id, titleEn, titleAr, createdAt } = latest;
 
   return NextResponse.json({
     status: "ok",
