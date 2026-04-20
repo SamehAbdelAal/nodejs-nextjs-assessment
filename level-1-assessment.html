@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 1 Assessment · Node.js &amp; Next.js Developer Assessment</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#f7f8fa;color:#0f172a;line-height:1.6;font-size:15px}
+.wrap{max-width:960px;margin:0 auto;padding:40px 30px 80px}
+header.top{background:linear-gradient(180deg,#0f172a,#1e293b);color:#f1f5f9;padding:36px 32px 32px;border-radius:10px;margin-bottom:28px}
+header.top .crumb{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#94a3b8;margin-bottom:10px}
+header.top h1{margin:0 0 8px;font-size:28px;letter-spacing:-.01em}
+header.top .sub{color:#cbd5e1;font-size:15px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:22px 26px;margin-bottom:18px;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+.card h2{margin:0 0 14px;font-size:18px;padding-bottom:10px;border-bottom:1px solid #e2e8f0;color:#0f172a}
+.card h3{margin:18px 0 8px;font-size:13px;font-weight:700;color:#1e293b;text-transform:uppercase;letter-spacing:.04em}
+.card p{margin:0 0 12px;color:#334155}
+.card ul,.card ol{margin:0 0 14px;padding-left:22px;color:#334155}
+.card li{margin-bottom:6px}
+.card strong{color:#0f172a}
+.badge{display:inline-block;padding:4px 10px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:999px;border:1px solid transparent;margin-right:6px}
+.b-mandatory{background:#dbeafe;color:#1e40af;border-color:#bfdbfe}
+.b-delivery{background:#d1fae5;color:#065f46;border-color:#a7f3d0}
+.b-ai{background:#fef3c7;color:#92400e;border-color:#fde68a}
+.b-forbidden{background:#fee2e2;color:#b91c1c;border-color:#fecaca}
+.b-checklist{background:#e0e7ff;color:#3730a3;border-color:#c7d2fe}
+.b-level{background:#0ea5e9;color:#fff;border-color:#0ea5e9}
+.callout{padding:14px 18px;border-left:4px solid;border-radius:8px;margin:14px 0;font-size:14px}
+.co-mandatory{background:#eff6ff;border-color:#1e40af;color:#1e3a8a}
+.co-delivery{background:#ecfdf5;border-color:#047857;color:#064e3b}
+.co-ai{background:#fffbeb;border-color:#b45309;color:#78350f}
+.co-forbidden{background:#fef2f2;border-color:#b91c1c;color:#7f1d1d}
+.co-checklist{background:#eef2ff;border-color:#3730a3;color:#312e81}
+pre{background:#0f172a;color:#e2e8f0;padding:16px 18px;border-radius:8px;overflow-x:auto;font-size:13px;font-family:"SF Mono",Menlo,Consolas,monospace;line-height:1.55}
+code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:13px;font-family:"SF Mono",Menlo,Consolas,monospace;color:#0f172a}
+pre code{background:transparent;color:inherit;padding:0}
+hr.divider{border:none;border-top:1px solid #e2e8f0;margin:30px 0}
+.final{background:#0f172a;color:#f1f5f9;border-radius:12px;padding:28px 32px;margin-top:36px}
+.final h2{color:#f1f5f9;border-bottom:1px solid #334155;font-size:20px;margin:0 0 14px;padding-bottom:10px}
+.final h3{color:#e2e8f0;text-transform:uppercase;letter-spacing:.06em;font-size:12px;margin-top:18px}
+.final p,.final li{color:#cbd5e1}
+.final strong{color:#f1f5f9}
+.final code{background:#1e293b;color:#e2e8f0}
+.final ul{padding-left:22px}
+.final li{margin-bottom:6px}
+@media print{.wrap{padding:20px}.card{break-inside:avoid;box-shadow:none}header.top{-webkit-print-color-adjust:exact}.final{-webkit-print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="crumb">Node.js &amp; Next.js Developer Assessment</div>
+    <h1>Level 1 Assessment <span class="badge b-level" style="margin-left:8px;font-size:12px">Level 1</span></h1>
+    <div class="sub">Build a realistic admin-panel feature set on Next.js App Router with Prisma, RBAC, audit, and server-side validation. Includes a seeded intermittent bug you must debug.</div>
+  </header>
+
+  <section class="card">
+    <h2>Assessment overview</h2>
+    <p>The Level 1 assessment verifies that the candidate can deliver a small but realistic admin-panel feature set end-to-end in a single AI-assisted session, and can reproduce and root-cause a seeded intermittent bug in the scaffolding they were given.</p>
+    <p>The assessment covers three connected parts: a bilingual announcement CRUD, a root-cause debugging task, and a role-aware user lookup with privacy-by-default. Every part must respect the business rules in the brief.</p>
+  </section>
+
+  <section class="card">
+    <h2>Scenario</h2>
+    <p>You are working on the internal admin panel of a generic SMB SaaS product. Content managers publish bilingual announcements to end users. Support agents occasionally look up user information to help with tickets. The team has asked you to deliver three connected features in a single session, starting from a small scaffold repo that already includes authentication, a Prisma schema starter, and a shadcn/ui layout.</p>
+    <p>The scaffold contains one intentionally seeded intermittent bug in one of its existing routes that throws a 500 error under a specific edge case. Finding and fixing that bug at the root-cause level is part of the assessment.</p>
+  </section>
+
+  <section class="card">
+    <h2>What is required in the assessment</h2>
+    <h3>Part A &mdash; Bilingual announcement CRUD</h3>
+    <ul>
+      <li>App Router page at <code>app/admin/announcements/page.tsx</code> listing announcements with server-side pagination.</li>
+      <li>Create and edit pages with server-side Zod validation for English and Arabic title and body (both mandatory).</li>
+      <li>RBAC: only <code>ADMIN</code> and <code>CONTENT_MANAGER</code> may create, edit, or delete.</li>
+      <li>Every mutation writes an audit log entry via the provided helper.</li>
+      <li>Soft delete only. No hard deletes.</li>
+      <li>At least one negative test per mutation: unauthorised user blocked, invalid payload rejected, missing field rejected.</li>
+    </ul>
+
+    <h3>Part B &mdash; Root-cause an intermittent 500</h3>
+    <ul>
+      <li>Reproduce the seeded intermittent 500 in the scaffolding.</li>
+      <li>Identify the root cause. Do not hide the symptom.</li>
+      <li>Fix it in place and add a regression test that fails on the original code and passes on your fix.</li>
+      <li>Write a short <code>POSTMORTEM.md</code> covering: what was wrong, why it happened, how you reproduced it, how you prevented recurrence.</li>
+    </ul>
+
+    <h3>Part C &mdash; Role-aware user lookup</h3>
+    <ul>
+      <li>Server-side search and pagination for users at <code>app/admin/users/page.tsx</code>.</li>
+      <li>Support agents (role <code>SUPPORT</code>) see only display name, role, created date. Never email, phone, national ID, or any auth metadata.</li>
+      <li>Admins see the full record.</li>
+      <li>All queries go through Prisma &mdash; no in-memory filtering over the full table.</li>
+      <li>Include a database index on the searched columns.</li>
+      <li>At least one negative test: a Support agent cannot retrieve a sensitive field even by crafting the request manually.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Inputs provided</h2>
+    <ul>
+      <li>A starter scaffold repo: Next.js App Router, Prisma, <code>User</code> and <code>Announcement</code> schema, auth helper, RBAC helper, audit helper, Vitest harness, shadcn/ui layout.</li>
+      <li>A seeded intermittent bug in one of the scaffold's existing routes (Part B).</li>
+      <li>A one-page brief with business rules for Parts A and C and the symptom description for Part B.</li>
+      <li>Database credentials for a disposable PostgreSQL instance.</li>
+      <li>An AI tool of your choice. Any tool is allowed.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Required deliverables</h2>
+<pre>&lt;repo-root&gt;/
+├── README.md                   one-line run instructions
+├── POSTMORTEM.md               Part B root cause + fix
+├── ai-session/
+│   └── transcript.md           full AI session, verbatim
+├── app/                        code
+├── prisma/                     schema + migrations
+└── __tests__/                  tests</pre>
+    <p><strong>The session transcript is the primary submission artefact.</strong> Do not create <code>SUBMISSION.md</code>, <code>DECISIONS.md</code>, <code>BUILD_LOG.md</code>, <code>DESIGN.md</code>, or <code>KNOWN_ISSUES.md</code>.</p>
+  </section>
+
+  <section class="card">
+    <h2>How to deliver the assessment</h2>
+    <div class="callout co-delivery">
+      <span class="badge b-delivery">Delivery</span> &nbsp; Private GitHub repo. Branch <code>assessment-1</code>. Read access granted to reviewer account. Final commit pushed. Branch URL sent to reviewer.
+    </div>
+    <ol>
+      <li>Create a <strong>private GitHub repository</strong>.</li>
+      <li>Create a branch named <code>assessment-1</code>.</li>
+      <li>Grant <strong>read access</strong> to the reviewer account you were given.</li>
+      <li>Work through all three parts in <strong>one continuous AI session</strong>.</li>
+      <li>Commit incrementally.</li>
+      <li>As the final step, ask your AI tool to <strong>copy the entire session verbatim into <code>ai-session/transcript.md</code> with no modification</strong>.</li>
+      <li>Push the final commit and send the branch URL to the reviewer.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>Rules for applying this assessment</h2>
+    <ul>
+      <li><span class="badge b-mandatory">Mandatory</span> One continuous AI session from start to finish. No multi-day work.</li>
+      <li><span class="badge b-mandatory">Mandatory</span> Commit incrementally. A single final commit is a red flag.</li>
+      <li><span class="badge b-mandatory">Mandatory</span> You are accountable for every line in the final repo.</li>
+      <li><span class="badge b-mandatory">Mandatory</span> Identify the root cause of the seeded bug. Symptom-only fixes are forbidden.</li>
+      <li><span class="badge b-forbidden">Forbidden</span> Post-hoc editing of the transcript. The transcript is the raw session.</li>
+      <li><span class="badge b-forbidden">Forbidden</span> Bypassing RBAC or audit on any mutation.</li>
+      <li><span class="badge b-forbidden">Forbidden</span> Sensitive field leaks to Support roles in Part C.</li>
+      <li><span class="badge b-forbidden">Forbidden</span> Hiding the Part B symptom instead of fixing the cause.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>AI usage rule for this assessment</h2>
+    <div class="callout co-ai">
+      <span class="badge b-ai">AI Rule</span> &nbsp; Any AI tool is allowed. Declare the tool in the transcript header. You are accountable for every line of code. A one-shot high-quality prompt is a winning pattern. Turn count is not measured.
+    </div>
+    <ul>
+      <li>Declare your AI tool name in the transcript header (Claude Code, Cursor, ChatGPT, Copilot, Claude CLI, or other).</li>
+      <li>AI may write code, explain concepts, suggest tests, and help you debug.</li>
+      <li>You must still direct the AI with platform-specific prompts. "Give me the code for the brief" is a fail pattern.</li>
+      <li>You may use AI to help debug Part B, but the reasoning about the root cause must appear in the transcript as your own thinking.</li>
+      <li>The transcript must be verbatim. Post-hoc editing is forbidden.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Submission checklist</h2>
+    <div class="callout co-checklist">
+      <span class="badge b-checklist">Checklist</span> &nbsp; Complete every item before sending the branch URL.
+    </div>
+    <ul>
+      <li>&#9744; Private GitHub repo created</li>
+      <li>&#9744; Branch <code>assessment-1</code> created</li>
+      <li>&#9744; Read access granted to reviewer account</li>
+      <li>&#9744; Part A: Announcement CRUD with RBAC, audit, Zod, negative tests</li>
+      <li>&#9744; Part B: root-cause fix + regression test + <code>POSTMORTEM.md</code></li>
+      <li>&#9744; Part C: role-aware user lookup with privacy-by-default and at least one negative test</li>
+      <li>&#9744; <code>npm test</code> passes</li>
+      <li>&#9744; <code>README.md</code> with one-line run instructions</li>
+      <li>&#9744; <code>ai-session/transcript.md</code> populated by asking AI to copy the session verbatim</li>
+      <li>&#9744; Incremental commits (not one final commit)</li>
+      <li>&#9744; Final commit pushed</li>
+      <li>&#9744; Branch URL sent to reviewer</li>
+    </ul>
+  </section>
+
+  <hr class="divider">
+
+  <section class="final">
+    <h2># Rules for This Assessment</h2>
+
+    <h3>What the candidate must do</h3>
+    <ul>
+      <li>Deliver Parts A, B, and C in one continuous AI session.</li>
+      <li>Respect every business rule in the brief, even when AI suggests otherwise.</li>
+      <li>Identify the root cause of the seeded bug and write the postmortem.</li>
+      <li>Copy the verbatim session into the transcript file as the final step before pushing.</li>
+    </ul>
+
+    <h3>Files to submit</h3>
+    <ul>
+      <li><code>README.md</code>, <code>POSTMORTEM.md</code>, <code>ai-session/transcript.md</code>, code, tests, migrations.</li>
+      <li>No <code>SUBMISSION.md</code>, no <code>DECISIONS.md</code>, no <code>BUILD_LOG.md</code>, no <code>DESIGN.md</code>, no <code>KNOWN_ISSUES.md</code>.</li>
+    </ul>
+
+    <h3>Delivery</h3>
+    <ul>
+      <li>Private GitHub repo, branch <code>assessment-1</code>, read access granted to the reviewer account.</li>
+      <li>Push the final commit. Send the branch URL to the reviewer. Nothing sent after the URL will be considered.</li>
+    </ul>
+
+    <h3>AI usage boundaries</h3>
+    <ul>
+      <li>Any AI tool is allowed. Declare the tool in the transcript header.</li>
+      <li>You direct the AI. The AI does not direct you.</li>
+      <li>The transcript must be the verbatim session, not a cleaned-up version.</li>
+    </ul>
+
+    <h3>What is forbidden</h3>
+    <ul>
+      <li>Post-hoc editing of the transcript.</li>
+      <li>Symptom-only fixes for Part B.</li>
+      <li>Bypassing RBAC or audit on any mutation.</li>
+      <li>Sensitive field leaks to Support roles in Part C.</li>
+      <li>Multi-day work. The session must be continuous.</li>
+    </ul>
+
+    <h3>Transcript requirement</h3>
+    <ul>
+      <li>Location: <code>ai-session/transcript.md</code>.</li>
+      <li>Content: the full, verbatim AI session including every prompt, every response, and every tool call.</li>
+      <li>Created by: asking your AI tool to copy the session into the file as the final step.</li>
+    </ul>
+
+    <h3>Session requirement</h3>
+    <ul>
+      <li>One continuous session.</li>
+      <li>Breaks are allowed and must be noted in the transcript with a heading like <code>## Break · 12:15 · lunch</code>.</li>
+    </ul>
+
+    <h3>Final submission checklist</h3>
+    <ul>
+      <li>&#9744; All three parts delivered end to end</li>
+      <li>&#9744; <code>npm test</code> passes</li>
+      <li>&#9744; <code>POSTMORTEM.md</code> present and substantive</li>
+      <li>&#9744; Verbatim transcript in <code>ai-session/transcript.md</code></li>
+      <li>&#9744; Incremental commits</li>
+      <li>&#9744; Branch <code>assessment-1</code> pushed</li>
+      <li>&#9744; Reviewer has read access</li>
+      <li>&#9744; Branch URL sent to reviewer</li>
+    </ul>
+  </section>
+
+</div>
+</body>
+</html>
