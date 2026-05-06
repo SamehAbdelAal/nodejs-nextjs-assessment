@@ -67,6 +67,8 @@ model ReviewQueueItem {
   claimedAt      DateTime?
   decisionNote   String?
   decidedAt      DateTime?
+  tier           Int       @default(1)
+  escalatedAt    DateTime?
   createdAt      DateTime  @default(now())
 
   announcement Announcement @relation(fields: [announcementId], references: [id])
