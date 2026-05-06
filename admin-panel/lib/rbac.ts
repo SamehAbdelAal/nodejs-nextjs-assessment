@@ -1,7 +1,15 @@
 import { Role } from "@prisma/client";
 import type { SessionUser } from "./auth";
 
-export type Action = "create" | "edit" | "delete" | "viewSensitive" | "view";
+export type Action =
+  | "create"
+  | "edit"
+  | "delete"
+  | "viewSensitive"
+  | "view"
+  | "review"
+  | "submitForReview"
+  | "escalate";
 
 export function can(user: SessionUser | null, action: Action): boolean {
   if (!user) return false;
@@ -11,6 +19,14 @@ export function can(user: SessionUser | null, action: Action): boolean {
     case "delete":
       return user.role === Role.ADMIN || user.role === Role.CONTENT_MANAGER;
     case "viewSensitive":
+      return user.role === Role.ADMIN;
+    case "review":
+      return (
+        user.role === Role.ADMIN || user.role === Role.COMPLIANCE_OFFICER
+      );
+    case "submitForReview":
+      return user.role === Role.ADMIN || user.role === Role.CONTENT_MANAGER;
+    case "escalate":
       return user.role === Role.ADMIN;
     case "view":
       return true;

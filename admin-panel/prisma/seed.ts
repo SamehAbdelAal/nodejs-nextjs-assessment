@@ -38,6 +38,16 @@ async function main() {
     },
   });
 
+  await prisma.user.upsert({
+    where: { email: "compliance@example.com" },
+    update: {},
+    create: {
+      email: "compliance@example.com",
+      name: "Compliance Officer",
+      role: Role.COMPLIANCE_OFFICER,
+    },
+  });
+
   const announcementCount = await prisma.announcement.count();
   if (announcementCount === 0) {
     await prisma.announcement.createMany({

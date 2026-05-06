@@ -9,8 +9,16 @@ datasource db {
 enum Role {
   ADMIN
   CONTENT_MANAGER
+  COMPLIANCE_OFFICER
   SUPPORT
   USER
+}
+
+enum AnnouncementStatus {
+  DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  REJECTED
 }
 
 model User {
@@ -30,21 +38,24 @@ model User {
 }
 
 model Announcement {
-  id        String    @id @default(cuid())
-  titleEn   String
-  titleAr   String
-  bodyEn    String
-  bodyAr    String
-  deletedAt DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  authorId  String
-  author    User      @relation(fields: [authorId], references: [id])
+  id          String             @id @default(cuid())
+  titleEn     String
+  titleAr     String
+  bodyEn      String
+  bodyAr      String
+  status      AnnouncementStatus @default(DRAFT)
+  publishedAt DateTime?
+  deletedAt   DateTime?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  authorId    String
+  author      User               @relation(fields: [authorId], references: [id])
 
   auditLogs       AuditLog[]
   reviewQueueItem ReviewQueueItem?
 
   @@index([deletedAt])
+  @@index([status])
 }
 
 model ReviewQueueItem {
