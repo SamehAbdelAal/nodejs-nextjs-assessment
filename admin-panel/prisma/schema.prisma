@@ -41,9 +41,27 @@ model Announcement {
   authorId  String
   author    User      @relation(fields: [authorId], references: [id])
 
-  auditLogs AuditLog[]
+  auditLogs       AuditLog[]
+  reviewQueueItem ReviewQueueItem?
 
   @@index([deletedAt])
+}
+
+model ReviewQueueItem {
+  id             String    @id @default(cuid())
+  announcementId String    @unique
+  authorId       String
+  status         String    // PENDING | UNDER_REVIEW | APPROVED | REJECTED
+  claimedBy      String?
+  claimedAt      DateTime?
+  decisionNote   String?
+  decidedAt      DateTime?
+  createdAt      DateTime  @default(now())
+
+  announcement Announcement @relation(fields: [announcementId], references: [id])
+
+  @@index([status, claimedBy])
+  @@index([createdAt])
 }
 
 model AuditLog {
