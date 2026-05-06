@@ -1,9 +1,11 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { getSessionUser } from "@/lib/auth";
+import { can } from "@/lib/rbac";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const user = getSessionUser();
+  const canReview = can(user, "review");
 
   return (
     <div className="min-h-screen flex">
@@ -24,6 +26,14 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           >
             Users
           </Link>
+          {canReview && (
+            <Link
+              href="/admin/review-queue"
+              className="block px-2 py-1.5 rounded hover:bg-gray-200"
+            >
+              Review queue
+            </Link>
+          )}
         </nav>
         {user && (
           <div className="mt-6 pt-4 border-t text-xs text-gray-600">

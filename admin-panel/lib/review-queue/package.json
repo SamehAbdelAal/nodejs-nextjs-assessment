@@ -1,0 +1,14 @@
+{
+  "name": "@assessment/review-queue",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Review queue primitive used by the Level 2 assessment workflow.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc -p ."
+  },
+  "peerDependencies": {
+    "@prisma/client": ">=5.0.0"
+  }
+}

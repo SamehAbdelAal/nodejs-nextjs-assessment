@@ -21,3 +21,11 @@ export const userSearchSchema = paginationSchema.extend({
 });
 
 export type UserSearchInput = z.infer<typeof userSearchSchema>;
+
+export const reviewApproveSchema = z.object({
+  note: z.string().min(1, "note is required"),
+});
+
+export const reviewRejectSchema = z.object({
+  reason: z.string().min(1, "reason is required"),
+});
