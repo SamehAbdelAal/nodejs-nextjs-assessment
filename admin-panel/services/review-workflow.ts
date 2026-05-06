@@ -78,14 +78,38 @@ export async function submitForReview(
       data: { status: AnnouncementStatus.PENDING_REVIEW },
     });
 
-    const item = await tx.reviewQueueItem.create({
-      data: {
-        announcementId,
-        authorId: user.id,
-        status: "PENDING",
-        tier: 1,
-      },
+    // ReviewQueueItem.announcementId is @unique. If a prior submission exists
+    // (e.g. previous round was REJECTED or verification flipped the announcement
+    // back to DRAFT), reuse the row and reset its review state instead of
+    // creating a duplicate. createdAt is reset so the overdue / escalation
+    // clock starts fresh for this round.
+    const existing = await tx.reviewQueueItem.findUnique({
+      where: { announcementId },
     });
+
+    const item = existing
+      ? await tx.reviewQueueItem.update({
+          where: { id: existing.id },
+          data: {
+            authorId: user.id,
+            status: "PENDING",
+            claimedBy: null,
+            claimedAt: null,
+            decisionNote: null,
+            decidedAt: null,
+            tier: 1,
+            escalatedAt: null,
+            createdAt: new Date(),
+          },
+        })
+      : await tx.reviewQueueItem.create({
+          data: {
+            announcementId,
+            authorId: user.id,
+            status: "PENDING",
+            tier: 1,
+          },
+        });
 
     await tx.auditLog.create({
       data: {
@@ -94,7 +118,11 @@ export async function submitForReview(
         entityId: announcementId,
         userId: user.id,
         announcementId,
-        metadata: { reviewQueueItemId: item.id, tier: 1 },
+        metadata: {
+          reviewQueueItemId: item.id,
+          tier: 1,
+          resubmit: existing !== null,
+        },
       },
     });
 
