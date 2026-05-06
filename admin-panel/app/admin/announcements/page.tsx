@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/auth";
 import { can } from "@/lib/rbac";
 import { paginationSchema } from "@/lib/validations";
+import SubmitForReviewButton from "./SubmitForReviewButton";
 
 type SearchParams = Promise<{ page?: string; pageSize?: string }>;
 
@@ -19,6 +20,7 @@ export default async function AnnouncementsPage({
 
   const user = getSessionUser();
   const canEdit = can(user, "edit");
+  const canSubmit = can(user, "submitForReview");
 
   const where = { deletedAt: null };
   const [items, total] = await Promise.all([
@@ -61,15 +63,25 @@ export default async function AnnouncementsPage({
               >
                 {a.titleAr}
               </div>
+              <div className="text-xs mt-1">
+                <span className="inline-block px-1.5 py-0.5 rounded bg-gray-100 text-gray-700">
+                  {a.status}
+                </span>
+              </div>
             </div>
-            {canEdit && (
-              <Link
-                href={`/admin/announcements/${a.id}/edit`}
-                className="underline text-sm shrink-0"
-              >
-                Edit
-              </Link>
-            )}
+            <div className="flex items-center gap-3 shrink-0">
+              {canSubmit && a.status === "DRAFT" && (
+                <SubmitForReviewButton id={a.id} />
+              )}
+              {canEdit && (
+                <Link
+                  href={`/admin/announcements/${a.id}/edit`}
+                  className="underline text-sm"
+                >
+                  Edit
+                </Link>
+              )}
+            </div>
           </li>
         ))}
         {items.length === 0 && (
